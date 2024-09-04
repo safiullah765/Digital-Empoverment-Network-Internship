@@ -1,0 +1,598 @@
+# Nmap 7.94SVN scan initiated Wed Aug  7 03:16:55 2024 as: nmap --script vuln -iL ips.txt -oN output.txt nmap
+Nmap scan report for 192.168.67.128
+Host is up (0.073s latency).
+Not shown: 991 closed tcp ports (conn-refused)
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+|_http-trace: TRACE is enabled
+| http-internal-ip-disclosure: 
+|_  Internal IP Leaked: 127.0.1.1
+| http-cookie-flags: 
+|   /mono/: 
+|     ASP.NET_SessionId: 
+|_      httponly flag not set
+| http-vuln-cve2011-3192: 
+|   VULNERABLE:
+|   Apache byterange filter DoS
+|     State: VULNERABLE
+|     IDs:  BID:49303  CVE:CVE-2011-3192
+|       The Apache web server is vulnerable to a denial of service attack when numerous
+|       overlapping byte ranges are requested.
+|     Disclosure date: 2011-08-19
+|     References:
+|       https://seclists.org/fulldisclosure/2011/Aug/175
+|       https://www.securityfocus.com/bid/49303
+|       https://www.tenable.com/plugins/nessus/55976
+|_      https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-3192
+|_http-csrf: Couldn't find any CSRF vulnerabilities.
+| http-enum: 
+|   /wordpress/: Blog
+|   /test/: Test page
+|   /mono/: Mono
+|   /crossdomain.xml: Adobe Flash crossdomain policy
+|   /phpmyadmin/: phpMyAdmin
+|   /wordpress/wp-login.php: Wordpress login page.
+|   /cgi-bin/: Potentially interesting folder w/ directory listing
+|   /icons/: Potentially interesting folder w/ directory listing
+|_  /images/: Potentially interesting folder w/ directory listing
+| http-cross-domain-policy: 
+|   VULNERABLE:
+|   Cross-domain and Client Access policies.
+|     State: VULNERABLE
+|       A cross-domain policy file specifies the permissions that a web client such as Java, Adobe Flash, Adobe Reader,
+|       etc. use to access data across different domains. A client acces policy file is similar to cross-domain policy
+|       but is used for M$ Silverlight applications. Overly permissive configurations enables Cross-site Request
+|       Forgery attacks, and may allow third parties to access sensitive data meant for the user.
+|     Check results:
+|       /crossdomain.xml:
+|         <?xml version="1.0"?>
+|         <!DOCTYPE cross-domain-policy SYSTEM "http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd">
+|         <cross-domain-policy>
+|           <allow-access-from domain="*" />
+|         </cross-domain-policy>
+|     Extra information:
+|       Trusted domains:*
+|   
+|     References:
+|       https://www.owasp.org/index.php/Test_RIA_cross_domain_policy_%28OTG-CONFIG-008%29
+|       https://www.adobe.com/devnet/articles/crossdomain_policy_file_spec.html
+|       http://sethsec.blogspot.com/2014/03/exploiting-misconfigured-crossdomainxml.html
+|       https://www.adobe.com/devnet-docs/acrobatetk/tools/AppSec/CrossDomain_PolicyFile_Specification.pdf
+|       http://acunetix.com/vulnerabilities/web/insecure-clientaccesspolicy-xml-file
+|_      http://gursevkalra.blogspot.com/2013/08/bypassing-same-origin-policy-with-flash.html
+|_http-dombased-xss: Couldn't find any DOM based XSS.
+|_http-stored-xss: Couldn't find any stored XSS vulnerabilities.
+139/tcp  open  netbios-ssn
+143/tcp  open  imap
+443/tcp  open  https
+| http-csrf: 
+| Spidering limited to: maxdepth=3; maxpagecount=20; withinhost=192.168.67.128
+|   Found the following possible CSRF vulnerabilities: 
+|     
+|     Path: http://192.168.67.128:443/dom-xss-example.html
+|     Form id: 
+|     Form action: '+location.href+'
+|     
+|     Path: https://192.168.67.128:443/wordpress/
+|     Form id: searchform
+|     Form action: https://192.168.67.128/wordpress/
+|     
+|     Path: https://192.168.67.128:443/ghost/
+|     Form id: 
+|     Form action: submit.php
+|     
+|     Path: https://192.168.67.128:443/AppSensorDemo/login.jsp
+|     Form id: 
+|_    Form action: Login
+|_http-aspnet-debug: ERROR: Script execution failed (use -d to debug)
+|_http-vuln-cve2014-3704: ERROR: Script execution failed (use -d to debug)
+| ssl-ccs-injection: 
+|   VULNERABLE:
+|   SSL/TLS MITM vulnerability (CCS Injection)
+|     State: VULNERABLE
+|     Risk factor: High
+|       OpenSSL before 0.9.8za, 1.0.0 before 1.0.0m, and 1.0.1 before 1.0.1h
+|       does not properly restrict processing of ChangeCipherSpec messages,
+|       which allows man-in-the-middle attackers to trigger use of a zero
+|       length master key in certain OpenSSL-to-OpenSSL communications, and
+|       consequently hijack sessions or obtain sensitive information, via
+|       a crafted TLS handshake, aka the "CCS Injection" vulnerability.
+|           
+|     References:
+|       http://www.cvedetails.com/cve/2014-0224
+|       https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0224
+|_      http://www.openssl.org/news/secadv_20140605.txt
+| http-vuln-cve2011-3192: 
+|   VULNERABLE:
+|   Apache byterange filter DoS
+|     State: VULNERABLE
+|     IDs:  BID:49303  CVE:CVE-2011-3192
+|       The Apache web server is vulnerable to a denial of service attack when numerous
+|       overlapping byte ranges are requested.
+|     Disclosure date: 2011-08-19
+|     References:
+|       https://seclists.org/fulldisclosure/2011/Aug/175
+|       https://www.securityfocus.com/bid/49303
+|       https://www.tenable.com/plugins/nessus/55976
+|_      https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-3192
+| ssl-poodle: 
+|   VULNERABLE:
+|   SSL POODLE information leak
+|     State: VULNERABLE
+|     IDs:  BID:70574  CVE:CVE-2014-3566
+|           The SSL protocol 3.0, as used in OpenSSL through 1.0.1i and other
+|           products, uses nondeterministic CBC padding, which makes it easier
+|           for man-in-the-middle attackers to obtain cleartext data via a
+|           padding-oracle attack, aka the "POODLE" issue.
+|     Disclosure date: 2014-10-14
+|     Check results:
+|       TLS_RSA_WITH_AES_128_CBC_SHA
+|     References:
+|       https://www.imperialviolet.org/2014/10/14/poodle.html
+|       https://www.securityfocus.com/bid/70574
+|       https://www.openssl.org/~bodo/ssl-poodle.pdf
+|_      https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566
+| ssl-dh-params: 
+|   VULNERABLE:
+|   Diffie-Hellman Key Exchange Insufficient Group Strength
+|     State: VULNERABLE
+|       Transport Layer Security (TLS) services that use Diffie-Hellman groups
+|       of insufficient strength, especially those using one of a few commonly
+|       shared groups, may be susceptible to passive eavesdropping attacks.
+|     Check results:
+|       WEAK DH GROUP 1
+|             Cipher Suite: TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+|             Modulus Type: Safe prime
+|             Modulus Source: mod_ssl 2.2.x/1024-bit MODP group with safe prime modulus
+|             Modulus Length: 1024
+|             Generator Length: 8
+|             Public Key Length: 1024
+|     References:
+|_      https://weakdh.org
+| http-cross-domain-policy: 
+|   VULNERABLE:
+|   Cross-domain and Client Access policies.
+|     State: VULNERABLE
+|       A cross-domain policy file specifies the permissions that a web client such as Java, Adobe Flash, Adobe Reader,
+|       etc. use to access data across different domains. A client acces policy file is similar to cross-domain policy
+|       but is used for M$ Silverlight applications. Overly permissive configurations enables Cross-site Request
+|       Forgery attacks, and may allow third parties to access sensitive data meant for the user.
+|     Check results:
+|       /crossdomain.xml:
+|         <?xml version="1.0"?>
+|         <!DOCTYPE cross-domain-policy SYSTEM "http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd">
+|         <cross-domain-policy>
+|           <allow-access-from domain="*" />
+|         </cross-domain-policy>
+|     Extra information:
+|       Trusted domains:*
+|   
+|     References:
+|       https://www.owasp.org/index.php/Test_RIA_cross_domain_policy_%28OTG-CONFIG-008%29
+|       https://www.adobe.com/devnet/articles/crossdomain_policy_file_spec.html
+|       http://sethsec.blogspot.com/2014/03/exploiting-misconfigured-crossdomainxml.html
+|       https://www.adobe.com/devnet-docs/acrobatetk/tools/AppSec/CrossDomain_PolicyFile_Specification.pdf
+|       http://acunetix.com/vulnerabilities/web/insecure-clientaccesspolicy-xml-file
+|_      http://gursevkalra.blogspot.com/2013/08/bypassing-same-origin-policy-with-flash.html
+|_http-dombased-xss: Couldn't find any DOM based XSS.
+| http-sql-injection: 
+|   Possible sqli for queries:
+|     https://192.168.67.128:443/ESAPI-Java-SwingSet-Interactive/main?function=Encoding%27%20OR%20sqlspider
+|     https://192.168.67.128:443/ESAPI-Java-SwingSet-Interactive/main?function=Encryption%27%20OR%20sqlspider
+|     https://192.168.67.128:443/ESAPI-Java-SwingSet-Interactive/main?function=DataProtection%27%20OR%20sqlspider
+|     https://192.168.67.128:443/ESAPI-Java-SwingSet-Interactive/main?function=Logging%27%20OR%20sqlspider
+|     https://192.168.67.128:443/ESAPI-Java-SwingSet-Interactive/main?function=ValidateUserInput%27%20OR%20sqlspider
+|     https://192.168.67.128:443/ESAPI-Java-SwingSet-Interactive/main?function=InitialSetup%27%20OR%20sqlspider
+|     https://192.168.67.128:443/ESAPI-Java-SwingSet-Interactive/main?function=Introduction%27%20OR%20sqlspider
+|     https://192.168.67.128:443/ESAPI-Java-SwingSet-Interactive/main?function=SessionManagement%27%20OR%20sqlspider
+|     https://192.168.67.128:443/ESAPI-Java-SwingSet-Interactive/main?function=About%27%20OR%20sqlspider
+|     https://192.168.67.128:443/ESAPI-Java-SwingSet-Interactive/main?function=HttpSecurity%27%20OR%20sqlspider
+|     https://192.168.67.128:443/ESAPI-Java-SwingSet-Interactive/main?function=AccessControl%27%20OR%20sqlspider
+|_    https://192.168.67.128:443/ESAPI-Java-SwingSet-Interactive/main?function=Login%27%20OR%20sqlspider
+| http-fileupload-exploiter: 
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|     Failed to upload and execute a payload.
+|   
+|_    Failed to upload and execute a payload.
+|_http-stored-xss: Couldn't find any stored XSS vulnerabilities.
+445/tcp  open  microsoft-ds
+5001/tcp open  commplex-link
+8080/tcp open  http-proxy
+| http-cookie-flags: 
+|   /manager/html/upload: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /manager/html: 
+|     JSESSIONID: 
+|_      httponly flag not set
+| http-enum: 
+|   /examples/: Sample scripts
+|   /manager/html/upload: Apache Tomcat (401 Unauthorized)
+|   /manager/html: Apache Tomcat (401 Unauthorized)
+|_  /docs/: Potentially interesting folder
+8081/tcp open  blackice-icecap
+
+Host script results:
+|_smb-vuln-ms10-061: Could not negotiate a connection:SMB: ERROR: Server returned less data than it was supposed to (one or more fields are missing); aborting [14]
+|_samba-vuln-cve-2012-1182: Could not negotiate a connection:SMB: ERROR: Server returned less data than it was supposed to (one or more fields are missing); aborting [14]
+|_smb-vuln-ms10-054: false
+| smb-vuln-regsvc-dos: 
+|   VULNERABLE:
+|   Service regsvc in Microsoft Windows systems vulnerable to denial of service
+|     State: VULNERABLE
+|       The service regsvc in Microsoft Windows 2000 systems is vulnerable to denial of service caused by a null deference
+|       pointer. This script will crash the service if it is vulnerable. This vulnerability was discovered by Ron Bowes
+|       while working on smb-enum-sessions.
+|_          
+
+Nmap scan report for 192.168.67.132
+Host is up (0.0068s latency).
+Not shown: 977 closed tcp ports (conn-refused)
+PORT     STATE SERVICE
+21/tcp   open  ftp
+| ftp-vsftpd-backdoor: 
+|   VULNERABLE:
+|   vsFTPd version 2.3.4 backdoor
+|     State: VULNERABLE (Exploitable)
+|     IDs:  BID:48539  CVE:CVE-2011-2523
+|       vsFTPd version 2.3.4 backdoor, this was reported on 2011-07-04.
+|     Disclosure date: 2011-07-03
+|     Exploit results:
+|       Shell command: id
+|       Results: uid=0(root) gid=0(root)
+|     References:
+|       https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-2523
+|       http://scarybeastsecurity.blogspot.com/2011/07/alert-vsftpd-download-backdoored.html
+|       https://www.securityfocus.com/bid/48539
+|_      https://github.com/rapid7/metasploit-framework/blob/master/modules/exploits/unix/ftp/vsftpd_234_backdoor.rb
+22/tcp   open  ssh
+23/tcp   open  telnet
+25/tcp   open  smtp
+| smtp-vuln-cve2010-4344: 
+|_  The SMTP server is not Exim: NOT VULNERABLE
+53/tcp   open  domain
+80/tcp   open  http
+|_http-vuln-cve2017-1001000: ERROR: Script execution failed (use -d to debug)
+|_http-trace: TRACE is enabled
+| http-csrf: 
+| Spidering limited to: maxdepth=3; maxpagecount=20; withinhost=192.168.67.132
+|   Found the following possible CSRF vulnerabilities: 
+|     
+|     Path: http://192.168.67.132:80/dvwa/
+|     Form id: 
+|     Form action: login.php
+|     
+|     Path: http://192.168.67.132:80/dvwa/login.php
+|     Form id: 
+|     Form action: login.php
+|     
+|     Path: http://192.168.67.132:80/twiki/TWikiDocumentation.html
+|     Form id: 
+|     Form action: http://TWiki.org/cgi-bin/passwd/TWiki/WebHome
+|     
+|     Path: http://192.168.67.132:80/twiki/TWikiDocumentation.html
+|     Form id: 
+|     Form action: http://TWiki.org/cgi-bin/passwd/Main/WebHome
+|     
+|     Path: http://192.168.67.132:80/twiki/TWikiDocumentation.html
+|     Form id: 
+|     Form action: http://TWiki.org/cgi-bin/edit/TWiki/
+|     
+|     Path: http://192.168.67.132:80/twiki/TWikiDocumentation.html
+|     Form id: 
+|     Form action: http://TWiki.org/cgi-bin/view/TWiki/TWikiSkins
+|     
+|     Path: http://192.168.67.132:80/twiki/TWikiDocumentation.html
+|     Form id: 
+|_    Form action: http://TWiki.org/cgi-bin/manage/TWiki/ManagingWebs
+|_http-dombased-xss: Couldn't find any DOM based XSS.
+|_http-stored-xss: Couldn't find any stored XSS vulnerabilities.
+| http-fileupload-exploiter: 
+|   
+|_    Couldn't find a file-type field.
+| http-enum: 
+|   /tikiwiki/: Tikiwiki
+|   /test/: Test page
+|   /phpinfo.php: Possible information file
+|   /phpMyAdmin/: phpMyAdmin
+|   /doc/: Potentially interesting directory w/ listing on 'apache/2.2.8 (ubuntu) dav/2'
+|   /icons/: Potentially interesting folder w/ directory listing
+|_  /index/: Potentially interesting folder
+| http-sql-injection: 
+|   Possible sqli for queries:
+|     http://192.168.67.132:80/dav/?C=M%3BO%3DA%27%20OR%20sqlspider
+|     http://192.168.67.132:80/dav/?C=S%3BO%3DA%27%20OR%20sqlspider
+|     http://192.168.67.132:80/dav/?C=D%3BO%3DA%27%20OR%20sqlspider
+|     http://192.168.67.132:80/dav/?C=N%3BO%3DD%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?do=toggle-security%27%20OR%20sqlspider&page=home.php
+|     http://192.168.67.132:80/mutillidae/index.php?page=user-info.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/?page=credits.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/?page=text-file-viewer.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=text-file-viewer.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/?page=add-to-your-blog.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/?page=view-someones-blog.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=notes.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=pen-test-tool-lookup.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=documentation%2Fhow-to-access-Mutillidae-over-Virtual-Box-network.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=installation.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=documentation%2Fvulnerabilities.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=password-generator.php%27%20OR%20sqlspider&username=anonymous
+|     http://192.168.67.132:80/mutillidae/index.php?page=credits.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=php-errors.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=browser-info.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=usage-instructions.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=change-log.htm%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/?page=user-info.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=set-background-color.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=framing.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=captured-data.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=capture-data.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=user-poll.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=secret-administrative-pages.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?do=toggle-hints%27%20OR%20sqlspider&page=home.php
+|     http://192.168.67.132:80/mutillidae/index.php?page=arbitrary-file-inclusion.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/?page=show-log.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=show-log.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/?page=login.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=view-someones-blog.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=site-footer-xss-discussion.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=dns-lookup.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=html5-storage.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=home.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/?page=source-viewer.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=source-viewer.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=register.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=add-to-your-blog.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/mutillidae/index.php?page=login.php%27%20OR%20sqlspider
+|     http://192.168.67.132:80/view/TWiki/TWikiHistory?rev=1.8%27%20OR%20sqlspider
+|     http://192.168.67.132:80/view/TWiki/TWikiHistory?rev=1.7%27%20OR%20sqlspider
+|     http://192.168.67.132:80/rdiff/TWiki/TWikiHistory?rev1=1.9%27%20OR%20sqlspider&rev2=1.8
+|     http://192.168.67.132:80/rdiff/TWiki/TWikiHistory?rev1=1.9&rev2=1.8%27%20OR%20sqlspider
+|     http://192.168.67.132:80/oops/TWiki/TWikiHistory?template=oopsrev%27%20OR%20sqlspider&param1=1.10
+|     http://192.168.67.132:80/oops/TWiki/TWikiHistory?template=oopsrev&param1=1.10%27%20OR%20sqlspider
+|     http://192.168.67.132:80/rdiff/TWiki/TWikiHistory?rev1=1.8%27%20OR%20sqlspider&rev2=1.7
+|     http://192.168.67.132:80/rdiff/TWiki/TWikiHistory?rev1=1.8&rev2=1.7%27%20OR%20sqlspider
+|     http://192.168.67.132:80/rdiff/TWiki/TWikiHistory?rev1=1.10%27%20OR%20sqlspider&rev2=1.9
+|     http://192.168.67.132:80/rdiff/TWiki/TWikiHistory?rev1=1.10&rev2=1.9%27%20OR%20sqlspider
+|     http://192.168.67.132:80/view/TWiki/TWikiHistory?rev=1.9%27%20OR%20sqlspider
+|     http://192.168.67.132:80/view/TWiki/TWikiHistory?rev=1.8%27%20OR%20sqlspider
+|     http://192.168.67.132:80/view/TWiki/TWikiHistory?rev=1.7%27%20OR%20sqlspider
+|     http://192.168.67.132:80/rdiff/TWiki/TWikiHistory?rev1=1.9%27%20OR%20sqlspider&rev2=1.8
+|     http://192.168.67.132:80/rdiff/TWiki/TWikiHistory?rev1=1.9&rev2=1.8%27%20OR%20sqlspider
+|     http://192.168.67.132:80/rdiff/TWiki/TWikiHistory?rev1=1.8%27%20OR%20sqlspider&rev2=1.7
+|     http://192.168.67.132:80/rdiff/TWiki/TWikiHistory?rev1=1.8&rev2=1.7%27%20OR%20sqlspider
+|     http://192.168.67.132:80/oops/TWiki/TWikiHistory?template=oopsrev%27%20OR%20sqlspider&param1=1.10
+|     http://192.168.67.132:80/oops/TWiki/TWikiHistory?template=oopsrev&param1=1.10%27%20OR%20sqlspider
+|     http://192.168.67.132:80/rdiff/TWiki/TWikiHistory?rev1=1.10%27%20OR%20sqlspider&rev2=1.9
+|     http://192.168.67.132:80/rdiff/TWiki/TWikiHistory?rev1=1.10&rev2=1.9%27%20OR%20sqlspider
+|     http://192.168.67.132:80/view/TWiki/TWikiHistory?rev=1.9%27%20OR%20sqlspider
+|     http://192.168.67.132:80/dav/?C=S%3BO%3DA%27%20OR%20sqlspider
+|     http://192.168.67.132:80/dav/?C=N%3BO%3DA%27%20OR%20sqlspider
+|     http://192.168.67.132:80/dav/?C=D%3BO%3DA%27%20OR%20sqlspider
+|     http://192.168.67.132:80/dav/?C=M%3BO%3DD%27%20OR%20sqlspider
+|     http://192.168.67.132:80/dav/?C=S%3BO%3DD%27%20OR%20sqlspider
+|     http://192.168.67.132:80/dav/?C=M%3BO%3DA%27%20OR%20sqlspider
+|     http://192.168.67.132:80/dav/?C=N%3BO%3DA%27%20OR%20sqlspider
+|     http://192.168.67.132:80/dav/?C=D%3BO%3DA%27%20OR%20sqlspider
+|     http://192.168.67.132:80/dav/?C=M%3BO%3DA%27%20OR%20sqlspider
+|     http://192.168.67.132:80/dav/?C=D%3BO%3DD%27%20OR%20sqlspider
+|     http://192.168.67.132:80/dav/?C=N%3BO%3DA%27%20OR%20sqlspider
+|_    http://192.168.67.132:80/dav/?C=S%3BO%3DA%27%20OR%20sqlspider
+111/tcp  open  rpcbind
+139/tcp  open  netbios-ssn
+445/tcp  open  microsoft-ds
+512/tcp  open  exec
+513/tcp  open  login
+514/tcp  open  shell
+1099/tcp open  rmiregistry
+| rmi-vuln-classloader: 
+|   VULNERABLE:
+|   RMI registry default configuration remote code execution vulnerability
+|     State: VULNERABLE
+|       Default configuration of RMI registry allows loading classes from remote URLs which can lead to remote code execution.
+|       
+|     References:
+|_      https://github.com/rapid7/metasploit-framework/blob/master/modules/exploits/multi/misc/java_rmi_server.rb
+1524/tcp open  ingreslock
+2049/tcp open  nfs
+2121/tcp open  ccproxy-ftp
+3306/tcp open  mysql
+5432/tcp open  postgresql
+| ssl-poodle: 
+|   VULNERABLE:
+|   SSL POODLE information leak
+|     State: VULNERABLE
+|     IDs:  BID:70574  CVE:CVE-2014-3566
+|           The SSL protocol 3.0, as used in OpenSSL through 1.0.1i and other
+|           products, uses nondeterministic CBC padding, which makes it easier
+|           for man-in-the-middle attackers to obtain cleartext data via a
+|           padding-oracle attack, aka the "POODLE" issue.
+|     Disclosure date: 2014-10-14
+|     Check results:
+|       TLS_RSA_WITH_AES_128_CBC_SHA
+|     References:
+|       https://www.imperialviolet.org/2014/10/14/poodle.html
+|       https://www.securityfocus.com/bid/70574
+|       https://www.openssl.org/~bodo/ssl-poodle.pdf
+|_      https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566
+| ssl-ccs-injection: 
+|   VULNERABLE:
+|   SSL/TLS MITM vulnerability (CCS Injection)
+|     State: VULNERABLE
+|     Risk factor: High
+|       OpenSSL before 0.9.8za, 1.0.0 before 1.0.0m, and 1.0.1 before 1.0.1h
+|       does not properly restrict processing of ChangeCipherSpec messages,
+|       which allows man-in-the-middle attackers to trigger use of a zero
+|       length master key in certain OpenSSL-to-OpenSSL communications, and
+|       consequently hijack sessions or obtain sensitive information, via
+|       a crafted TLS handshake, aka the "CCS Injection" vulnerability.
+|           
+|     References:
+|       http://www.cvedetails.com/cve/2014-0224
+|       https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0224
+|_      http://www.openssl.org/news/secadv_20140605.txt
+| ssl-dh-params: 
+|   VULNERABLE:
+|   Diffie-Hellman Key Exchange Insufficient Group Strength
+|     State: VULNERABLE
+|       Transport Layer Security (TLS) services that use Diffie-Hellman groups
+|       of insufficient strength, especially those using one of a few commonly
+|       shared groups, may be susceptible to passive eavesdropping attacks.
+|     Check results:
+|       WEAK DH GROUP 1
+|             Cipher Suite: TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+|             Modulus Type: Safe prime
+|             Modulus Source: Unknown/Custom-generated
+|             Modulus Length: 1024
+|             Generator Length: 8
+|             Public Key Length: 1024
+|     References:
+|_      https://weakdh.org
+5900/tcp open  vnc
+6000/tcp open  X11
+6667/tcp open  irc
+|_irc-unrealircd-backdoor: Looks like trojaned version of unrealircd. See http://seclists.org/fulldisclosure/2010/Jun/277
+8009/tcp open  ajp13
+8180/tcp open  unknown
+|_http-aspnet-debug: ERROR: Script execution failed (use -d to debug)
+| http-cookie-flags: 
+|   /admin/: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/index.html: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/login.html: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/admin.html: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/account.html: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/admin_login.html: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/home.html: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/admin-login.html: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/adminLogin.html: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/controlpanel.html: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/cp.html: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/index.jsp: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/login.jsp: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/admin.jsp: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/home.jsp: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/controlpanel.jsp: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/admin-login.jsp: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/cp.jsp: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/account.jsp: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/admin_login.jsp: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/adminLogin.jsp: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/view/javascript/fckeditor/editor/filemanager/connectors/test.html: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/includes/FCKeditor/editor/filemanager/upload/test.html: 
+|     JSESSIONID: 
+|       httponly flag not set
+|   /admin/jscript/upload.html: 
+|     JSESSIONID: 
+|_      httponly flag not set
+| http-enum: 
+|   /admin/: Possible admin folder
+|   /admin/index.html: Possible admin folder
+|   /admin/login.html: Possible admin folder
+|   /admin/admin.html: Possible admin folder
+|   /admin/account.html: Possible admin folder
+|   /admin/admin_login.html: Possible admin folder
+|   /admin/home.html: Possible admin folder
+|   /admin/admin-login.html: Possible admin folder
+|   /admin/adminLogin.html: Possible admin folder
+|   /admin/controlpanel.html: Possible admin folder
+|   /admin/cp.html: Possible admin folder
+|   /admin/index.jsp: Possible admin folder
+|   /admin/login.jsp: Possible admin folder
+|   /admin/admin.jsp: Possible admin folder
+|   /admin/home.jsp: Possible admin folder
+|   /admin/controlpanel.jsp: Possible admin folder
+|   /admin/admin-login.jsp: Possible admin folder
+|   /admin/cp.jsp: Possible admin folder
+|   /admin/account.jsp: Possible admin folder
+|   /admin/admin_login.jsp: Possible admin folder
+|   /admin/adminLogin.jsp: Possible admin folder
+|   /manager/html/upload: Apache Tomcat (401 Unauthorized)
+|   /manager/html: Apache Tomcat (401 Unauthorized)
+|   /admin/view/javascript/fckeditor/editor/filemanager/connectors/test.html: OpenCart/FCKeditor File upload
+|   /admin/includes/FCKeditor/editor/filemanager/upload/test.html: ASP Simple Blog / FCKeditor File Upload
+|   /admin/jscript/upload.html: Lizard Cart/Remote File upload
+|_  /webdav/: Potentially interesting folder
+
+Host script results:
+|_smb-vuln-ms10-054: false
+|_smb-vuln-regsvc-dos: ERROR: Script execution failed (use -d to debug)
+|_smb-vuln-ms10-061: false
+
+# Nmap done at Wed Aug  7 03:21:33 2024 -- 3 IP addresses (2 hosts up) scanned in 278.39 seconds
